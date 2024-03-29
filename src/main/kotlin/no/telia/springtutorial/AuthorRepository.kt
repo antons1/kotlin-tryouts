@@ -15,4 +15,8 @@ class AuthorRepository(val db: JdbcTemplate) {
     fun findAuthorById(id: String): Author? = db.query("SELECT * FROM authors WHERE id::text = ?", id) { response, _ ->
         Author(response.getString("id"), response.getString("firstname"), response.getString("lastname"))
     }.firstOrNull()
+
+    fun findAuthorByName(firstName: String, lastName: String): List<Author> = db.query("SELECT * FROM authors WHERE firstname = ? AND lastname = ?", firstName, lastName) { response, _ ->
+        Author(response.getString("id"), response.getString("firstname"), response.getString("lastname"))
+    }
 }

@@ -18,6 +18,11 @@ class BookController(val authorRepository: AuthorRepository, val bookRepository:
     }
 
     @QueryMapping
+    fun booksBetweenYears(@Argument lower: String, @Argument upper: String): List<Book> {
+        return bookRepository.getBooks().filter { it.publishYear.toInt() >= lower.toInt() && it.publishYear.toInt() <= upper.toInt() }
+    }
+
+    @QueryMapping
     fun authors(): List<Author> {
         return authorRepository.findAuthors()
     }
@@ -25,6 +30,11 @@ class BookController(val authorRepository: AuthorRepository, val bookRepository:
     @QueryMapping
     fun authorById(@Argument id: String): Author? {
         return authorRepository.findAuthorById(id)
+    }
+
+    @QueryMapping
+    fun authorByName(@Argument firstName: String, @Argument lastName: String): List<Author> {
+        return authorRepository.findAuthorByName(firstName, lastName)
     }
 
     @SchemaMapping

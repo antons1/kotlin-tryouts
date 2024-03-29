@@ -1,15 +1,18 @@
 type Query {
     books: [Book]
     bookById(id: ID!): Book
+    booksBetweenYears(lower: String!, upper: String!): [Book]
     authors: [Author]
     authorById(id: ID!): Author
+    authorByName(firstName: String!, lastName: String!): [Author]
+
 }
 
 type Book {
     id: ID!
     name: String!
-    pageCount: Int!
     author: Author!
+    publishYear: String!
 }
 
 type Author {
