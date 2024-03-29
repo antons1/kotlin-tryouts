@@ -1,0 +1,4 @@
+FROM postgres:16-alpine
+
+ENV POSTGRES_PASSWORD=dbadmin
+ENV POSTGRES_USER=admin

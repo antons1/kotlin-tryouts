@@ -6,14 +6,34 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping
 import org.springframework.stereotype.Controller
 
 @Controller
-class BookController {
+class BookController(val authorRepository: AuthorRepository, val bookRepository: BookRepository) {
+    @QueryMapping
+    fun books(): List<Book> {
+        return bookRepository.getBooks()
+    }
+
     @QueryMapping
     fun bookById(@Argument id: String): Book? {
-        return BookRepository.getById(id)
+        return bookRepository.getBookById(id)
+    }
+
+    @QueryMapping
+    fun authors(): List<Author> {
+        return authorRepository.findAuthors()
+    }
+
+    @QueryMapping
+    fun authorById(@Argument id: String): Author? {
+        return authorRepository.findAuthorById(id)
     }
 
     @SchemaMapping
     fun author(book: Book): Author? {
-        return AuthorRepository.getById(book.authorId)
+        return authorRepository.findAuthorById(book.authorId)
+    }
+
+    @SchemaMapping
+    fun books(author: Author): List<Book> {
+        return bookRepository.getBooksByAuthorId(author.id)
     }
 }
